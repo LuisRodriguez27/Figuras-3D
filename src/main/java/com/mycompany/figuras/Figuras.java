@@ -22,7 +22,7 @@ public class Figuras {
     private Node rootNode;
 
     // Posiciones base para las figuras
-    private float startX = -10.0f;  // Ajustado para dar espacio a más figuras
+    private float startX = -8.0f;  // Ajustado para dar espacio a más figuras
     private float spacing = 4.0f;   // Espacio entre figuras
     private float y = 2.0f;         // Altura uniforme
     private float z = -2.0f;        // Profundidad uniforme
