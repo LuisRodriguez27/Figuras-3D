@@ -25,12 +25,17 @@ public class App extends SimpleApplication {
         Figuras figuras = new Figuras(assetManager, rootNode);
         figuras.crearYColocarFiguras();
 
+        // Conectar GUI con Figuras para manejar selección
+        gui.setFiguras(figuras);
+
         // Configurar iluminación mejorada
         Iluminacion.configurarIluminacion(rootNode);
 
         // Configurar la cámara para ver todas las figuras
         cam.setLocation(new Vector3f(0, 8, 12));  // Aumentar la distancia para ver todo
         cam.lookAt(new Vector3f(0, 2, 0), Vector3f.UNIT_Y);
+
+        flyCam.setEnabled(false); // Desactiva la cámara voladora
     }
 
     @Override
