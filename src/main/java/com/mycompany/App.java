@@ -27,7 +27,7 @@ public class App extends SimpleApplication {
     public void simpleInitApp() {
         // Configuración inicial
         flyCam.setEnabled(false); // Desactivar la cámara voladora
-        cam.setLocation(new com.jme3.math.Vector3f(0, 5, 10)); // Posición inicial de la cámara
+        cam.setLocation(new com.jme3.math.Vector3f(0, 5, 18)); // Posición inicial de la cámara
         cam.lookAt(new com.jme3.math.Vector3f(0, 0, -5), com.jme3.math.Vector3f.UNIT_Y);
 
         // Crear nodo raíz para las figuras
@@ -42,13 +42,15 @@ public class App extends SimpleApplication {
 
         // Registrar todas las figuras en la GUI
         gui = new GUI(this, rootNode);
-        for (Geometry figura : figuras.getFiguras()) {
-            gui.registrarFigura(obtenerFiguraBaseDesdeGeometry(figura));
+        for (FiguraBase figura : figuras.getFigurasBase()) {
+            registrarFigura(figura);
+            gui.registrarFigura(figura);
         }
 
         // Configurar la GUI
-        gui.createSlidersForSelectedFigure(); // Crea los sliders iniciales (vacíos)
+//        gui.createSlidersForSelectedFigure(); // Crea los sliders iniciales (vacíos)
 
+        // Configurar iluminación
         Iluminacion.configurarIluminacion(rootNode);
     }
 

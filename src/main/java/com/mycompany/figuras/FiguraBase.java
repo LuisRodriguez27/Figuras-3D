@@ -45,7 +45,7 @@ public abstract class FiguraBase {
             wireframeGeometry = crearWireframe();
             wireframeGeometry.setLocalTranslation(geometry.getLocalTranslation());
             wireframeGeometry.setLocalRotation(geometry.getLocalRotation());
-            wireframeGeometry.setLocalScale(geometry.getLocalScale().mult(1.01f));
+            wireframeGeometry.setLocalScale(geometry.getLocalScale().mult(1.01f)); // Ligeramente más grande
             groupNode.attachChild(wireframeGeometry);
         }
     }
@@ -58,6 +58,4 @@ public abstract class FiguraBase {
     }
 
     protected abstract Geometry crearWireframe();
-
-
 }

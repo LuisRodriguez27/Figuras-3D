@@ -49,7 +49,8 @@ public class Esfera extends FiguraBase {
             indexIndex += 2;
         }
 
-        // Círculos en planos XY y YZ (similar al código anterior)
+        // Repetir para los otros dos círculos (XY y YZ)
+        // ...
 
         Mesh lineMesh = new Mesh();
         lineMesh.setMode(Mesh.Mode.Lines);

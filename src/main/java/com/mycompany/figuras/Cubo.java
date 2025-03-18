@@ -32,6 +32,5 @@ public class Cubo extends FiguraBase {
         wireMat.getAdditionalRenderState().setLineWidth(2.0f);
         wireGeo.setMaterial(wireMat);
         return wireGeo;
-
     }
 }

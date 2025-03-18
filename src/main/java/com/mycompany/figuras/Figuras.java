@@ -12,13 +12,13 @@ public class Figuras {
     private AssetManager assetManager;
     private Node rootNode;
 
-    private float startX = -8.0f;
+    private float startX = -4.0f;
     private float spacing = 4.0f;
     private float y = 2.0f;
     private float z = -2.0f;
 
     // Añadir una lista para almacenar todas las figuras creadas
-    private List<Geometry> figurasCreadas = new ArrayList<>();
+    private List<FiguraBase> figurasBase = new ArrayList<>();
 
     private ColorRGBA[] colors = new ColorRGBA[]{
             ColorRGBA.Red,
@@ -40,6 +40,12 @@ public class Figuras {
         Toro toro = new Toro(assetManager, rootNode, colors[3]);
         Piramide piramide = new Piramide(assetManager, rootNode, colors[4]);
 
+        figurasBase.add(esfera);
+        figurasBase.add(cubo);
+        figurasBase.add(cilindro);
+        figurasBase.add(toro);
+        figurasBase.add(piramide);
+
         colocarFigura(esfera.getGroupNode(), startX, y, z);
         colocarFigura(cubo.getGroupNode(), startX + spacing, y, z);
         colocarFigura(cilindro.getGroupNode(), startX + spacing * 2, y, z);
@@ -51,7 +57,7 @@ public class Figuras {
         groupNode.setLocalTranslation(x, y, z);
     }
 
-    public List<Geometry> getFiguras() {
-        return figurasCreadas;
+    public List<FiguraBase> getFigurasBase() {
+        return figurasBase;
     }
 }
