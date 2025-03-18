@@ -93,10 +93,10 @@ public class Pruebas extends SimpleApplication {
                         cubeGroup.rotate(0, -intensity, 0);
 
                         // Ejemplo de mover todo el grupo
-                        // cubeGroup.move(0.1f, 0, 0); // Descomenta si quieres moverlo a la derecha
+//                         cubeGroup.move(0.1f, 0, 0); // Descomenta si quieres moverlo a la derecha
 
                         // Ejemplo de escalar todo el grupo
-                        // cubeGroup.setLocalScale(1.5f); // Descomenta si quieres escalar
+//                         cubeGroup.setLocalScale(1.5f); // Descomenta si quieres escalar
                     }
                 }
             }

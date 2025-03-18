@@ -2,49 +2,69 @@ package com.mycompany;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.math.ColorRGBA;
-import com.jme3.math.Vector3f;
-import com.jme3.renderer.RenderManager;
-import com.mycompany.figuras.Figuras;
+import com.jme3.scene.Geometry;
+import com.jme3.scene.Node;
 import com.mycompany.efectos.Iluminacion;
+import com.mycompany.figuras.*;
 import com.mycompany.interfaz.GUI;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class App extends SimpleApplication {
 
+    private Figuras figuras; // Gestor de figuras
+    private GUI gui; // Interfaz gráfica
+
+    private Map<Geometry, FiguraBase> geometryToFiguraMap = new HashMap<>();
+
     public static void main(String[] args) {
         App app = new App();
-        app.start();
+        app.start(); // Inicia la aplicación
     }
 
     @Override
     public void simpleInitApp() {
-        // Configurar interfaz gráfica
-        GUI gui = new GUI(this);
-        gui.configurarEntorno();
+        // Configuración inicial
+        flyCam.setEnabled(false); // Desactivar la cámara voladora
+        cam.setLocation(new com.jme3.math.Vector3f(0, 5, 10)); // Posición inicial de la cámara
+        cam.lookAt(new com.jme3.math.Vector3f(0, 0, -5), com.jme3.math.Vector3f.UNIT_Y);
 
-        // Crear instancia de la clase Figuras y posicionar las figuras
-        Figuras figuras = new Figuras(assetManager, rootNode);
+        // Crear nodo raíz para las figuras
+        Node rootNodeFiguras = new Node("RootNodeFiguras");
+        rootNode.attachChild(rootNodeFiguras);
+
+        // Crear gestor de figuras
+        figuras = new Figuras(assetManager, rootNodeFiguras);
+
+        // Crear y colocar las figuras en la escena
         figuras.crearYColocarFiguras();
 
-        // Conectar GUI con Figuras para manejar selección
-        gui.setFiguras(figuras);
+        // Registrar todas las figuras en la GUI
+        gui = new GUI(this, rootNode);
+        for (Geometry figura : figuras.getFiguras()) {
+            gui.registrarFigura(obtenerFiguraBaseDesdeGeometry(figura));
+        }
 
-        // Configurar iluminación mejorada
+        // Configurar la GUI
+        gui.createSlidersForSelectedFigure(); // Crea los sliders iniciales (vacíos)
+
         Iluminacion.configurarIluminacion(rootNode);
+    }
 
-        // Configurar la cámara para ver todas las figuras
-        cam.setLocation(new Vector3f(0, 8, 12));  // Aumentar la distancia para ver todo
-        cam.lookAt(new Vector3f(0, 2, 0), Vector3f.UNIT_Y);
+    public void registrarFigura(FiguraBase figura) {
+        geometryToFiguraMap.put(figura.getGeometry(), figura);
+    }
 
-        flyCam.setEnabled(false); // Desactiva la cámara voladora
+    private FiguraBase obtenerFiguraBaseDesdeGeometry(Geometry geometry) {
+        return geometryToFiguraMap.get(geometry);
     }
 
     @Override
     public void simpleUpdate(float tpf) {
-        // Actualizaciones del juego (si es necesario)
-    }
-
-    @Override
-    public void simpleRender(RenderManager rm) {
-        // Renders adicionales (si es necesario)
+        // Aplicar transformaciones basadas en los valores de los sliders
+        if (gui != null) {
+            gui.applyTransformations();
+        }
     }
 }
