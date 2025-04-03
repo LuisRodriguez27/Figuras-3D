@@ -28,7 +28,7 @@ public class casa extends SimpleApplication {
     Spatial building;
     DirectionalLight sun;
 
-    private float sunAngle = 0;
+    private float currentSunHeight = -6; // Altura inicial del sol (puedes ajustarla)
 
     @Override
     public void simpleInitApp() {
@@ -67,7 +67,7 @@ public class casa extends SimpleApplication {
         rootNode.addLight(sun);
 
         // Habilitar sombras
-        DirectionalLightShadowRenderer shadowRenderer = new DirectionalLightShadowRenderer(assetManager, 5000, 3);
+        DirectionalLightShadowRenderer shadowRenderer = new DirectionalLightShadowRenderer(assetManager, 8000, 3);
         shadowRenderer.setLight(sun);
         viewPort.addProcessor(shadowRenderer);
 
@@ -101,7 +101,7 @@ public class casa extends SimpleApplication {
 
     private AnalogListener analogListener = new AnalogListener() {
         private final float rotationSpeed = FastMath.PI / 4f; // Velocidad de rotación (en radianes por segundo)
-        private final float sunSpeed = FastMath.PI / 8f; // Velocidad del movimiento del sol (en radianes por segundo)
+        private final float sunSpeed = FastMath.PI / 2f; // Velocidad del movimiento del sol (en radianes por segundo)
 
         @Override
         public void onAnalog(String name, float value, float tpf) {
@@ -126,23 +126,21 @@ public class casa extends SimpleApplication {
             }
         }
 
-        private void updateSunPosition(float deltaAngle) {
-            // Actualizar el ángulo del sol
-            sunAngle += deltaAngle;
+        private void updateSunPosition(float deltaY) {
+            // Actualizar la altura del sol
+            currentSunHeight += deltaY;
 
-            // Calcular nueva dirección del sol basada en el ángulo actual
-            float x = FastMath.cos(sunAngle); // Movimiento horizontal
-            float z = FastMath.sin(sunAngle); // Profundidad (opcional)
-            float y = FastMath.sin(sunAngle + FastMath.PI / 2); // Movimiento vertical (sube y baja)
+            // Limitar la altura máxima y mínima del sol (opcional)
+            currentSunHeight = FastMath.clamp(currentSunHeight, -10, 10);
 
-            // Escalar los valores para ajustar la intensidad del movimiento
-            x *= 10; // Ajustar rango horizontal
-            y = (y + 1) * 5; // Ajustar rango vertical (entre 0 y 10)
-            z *= 5; // Ajustar profundidad (opcional)
+            // Mantener la dirección horizontal constante (por ejemplo, en X y Z)
+            float x = -4; // Dirección horizontal fija en X
+            float z = -3; // Dirección horizontal fija en Z
 
             // Actualizar la dirección de la luz direccional
-            sun.setDirection(new Vector3f(x, y, z).normalizeLocal());
+            sun.setDirection(new Vector3f(x, currentSunHeight, z).normalizeLocal());
         }
+
     };
 
     public static void main(String[] args) {
